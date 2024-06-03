@@ -24,7 +24,7 @@ export default {
 
 			if(items[0] == undefined) return 'No initial sample found.';
 
-			languages.readByQuery({ fields: ['code','name'], filter: { code: { _neq: items[0].languages_id } } }).then((langs) => {
+			languages.readByQuery({ fields: ['code','name'], filter: { code: { _neq: items[0].languages_code } } }).then((langs) => {
 				
 				let translation_item = items[0];
 				delete translation_item['id'];
@@ -56,7 +56,7 @@ export default {
 					//console.log(openai_response);
 					if(openai_response == undefined) return;
 					let translated_data = JSON.parse(openai_response.choices[0].message.content.replace("\\\"","\""));
-					translated_data.languages_id = lang.code;
+					translated_data.languages_code = lang.code;
 					//console.log(translated_data);
 					translations.createOne(translated_data).then((create_response) => {
 						//console.log(create_response);
