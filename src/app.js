@@ -11,8 +11,8 @@ export default {
 	],
 	options: [
 		{
-			field: 'item_id',
-			name: 'Item ID',
+			field: 'item_ids',
+			name: 'Item IDs',
 			type: 'string',
 			meta: {
 				interface: 'input',
