@@ -25,12 +25,13 @@ export default {
     });
     const languages = new ItemsService(language_table, { schema: schema });
 
-    translations
-      .readByQuery({
-        fields: ["*"],
-        filter: { [`${collection}_id`]: { _in: item_ids } },
-      })
-      .then((items) => {
+    for (let i = 0; i < item_ids.length; i++) {
+      await translations
+        .readByQuery({
+          fields: ["*"],
+          filter: { [`${collection}_id`]: { _eq: item_ids[i] } },
+        })
+        .then((items) => {
           if (items[0] == undefined) return "No initial sample found.";
 
           languages
@@ -63,7 +64,8 @@ export default {
                 return output;
               });
             });
-      });
+        });
+    }
 
     async function openapi_call(i, lang, json_sample) {
       await delay(i * env.OPENAI_RATE_LIMIT).then(() => {
